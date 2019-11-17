@@ -12,8 +12,13 @@
 		  v-if="leftIconShow"
 		  size="20px"
 		  @click="leftPopShow = !leftPopShow"
-		   />
-		  <pagoda-icon :name="rightIconName" slot="right" size="20px"/>
+		  />
+		  <pagoda-icon 
+		  :name="rightIconName" 
+		  slot="right" 
+		  size="20px"
+			@click="handleNew"
+		  />
 		</pagoda-nav-bar>
 		<router-view/>
 		<!-- 侧边栏 -->
@@ -47,6 +52,11 @@ export default {
   	}
   },
   created () {
+  },
+  methods: {
+  	handleNew () {
+  		console.log(111)
+  	}
   }
 }
 </script>

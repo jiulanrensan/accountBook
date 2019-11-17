@@ -5,24 +5,24 @@
 		  <!-- <pagoda-col span="8">{{date}}  {{week}}</pagoda-col> -->
 		  <pagoda-col span="8">
 		  	<div style="text-align: left">
-				  <span>{{titleText.date}}</span>
-				  <span>{{titleText.week}}</span>
+				  <span>{{panelData.titleText.date}}</span>
+				  <span>{{panelData.titleText.week}}</span>
 			  </div>
 			</pagoda-col>
 		  <pagoda-col span="12">
 		  	<div style="text-align: right">
-		  		<span>收入:{{titleText.income}}</span>
-				  <span>支出:{{titleText.expenditure}}</span>
+		  		<span>收入:{{panelData.titleText.income}}</span>
+				  <span>支出:{{panelData.titleText.expenditure}}</span>
 		  	</div>
 			</pagoda-col>
 		</pagoda-row>
-
 		<!-- 内容行，v-for循环渲染列表 -->
-		<template v-for="(item, index) in [1,2,3]" >
+		<template v-for="item in panelData.listContent" >
 			<pagoda-row 
 			type="flex" 
 			justify="space-around" 
 			class="list-content"
+			@click="viewDetail(item)"
 			>
 				<!-- 左侧icon图标 -->
 				<!-- 中间靠左内容+分类 -->
@@ -32,13 +32,13 @@
 				</pagoda-col>
 				<pagoda-col span="14" class="list-item item-left">
 					<div class="list-item-content">
-						<div class="sort">{{listContent.sortName}}</div>
+						<div class="sort">{{item.sortName}}</div>
 						<div class="tag-list">
 							<pagoda-tag 
 								type="info" 
 								light
 								size="medium"
-								v-for="(tag, i) in listContent.tagList"
+								v-for="(tag, i) in item.tagList"
 								:key="i"
 								style="margin-right:4px"
 							>
@@ -49,8 +49,8 @@
 				</pagoda-col>
 				<pagoda-col span="6" class="list-item item-right">
 					<div class="list-item-amount">
-						<div class="amount">29.75</div>
-						<div class="time">19:00</div>
+						<div class="amount">{{item.amount}}</div>
+						<div class="time">{{item.time}}</div>
 					</div>
 				</pagoda-col>
 			</pagoda-row>
@@ -63,16 +63,47 @@ export default {
   name: 'dailyList',
   data () {
   	return {
-  		titleText: {
-  			date: '11月16日',
-	  		week: '星期五',
-	  		income: '100',
-	  		expenditure: '100'
-  		},
-  		listContent: {
-  			sortIconName: 'shop',
-  			sortName: '吃喝',
-  			tagList: ['早餐','面包', '牛奶']
+  		// titleText: {
+  		// 	date: '11月16日',
+	  	// 	week: '星期五',
+	  	// 	income: '100',
+	  	// 	expenditure: '100'
+  		// },
+  		// listContent: [
+	  	// 	{
+	  	// 		sortIconName: 'shop',
+	  	// 		sortName: '吃喝',
+	  	// 		tagList: ['早餐','面包', '牛奶','早餐','面包', '牛奶'],
+	  	// 		amount: '29.4',
+	  	// 		time: '19:00'
+	  	// 	},
+	  	// 	{
+	  	// 		sortIconName: 'shop',
+	  	// 		sortName: '吃喝',
+	  	// 		tagList: ['早餐','面包', '牛奶','早餐','面包', '牛奶'],
+	  	// 		amount: '29.4',
+	  	// 		time: '19:00'
+	  	// 	},
+	  	// 	{
+	  	// 		sortIconName: 'shop',
+	  	// 		sortName: '吃喝',
+	  	// 		tagList: ['早餐','面包', '牛奶','早餐','面包', '牛奶'],
+	  	// 		amount: '29.4',
+	  	// 		time: '19:00'
+	  	// 	}
+  		// ]
+  	}
+  },
+  methods: {
+  	viewDetail (item) {
+  		console.log(item)
+  	}
+  },
+  props: {
+  	panelData: {
+  		type: Object,
+  		default () {
+  			return {}
   		}
   	}
   }
@@ -108,6 +139,17 @@ export default {
 					height: 20px;
 					font-size: 12px;
 					text-align: left;
+					overflow: hidden;
+				}
+				.amount,
+				.time{
+					height: 30px;
+					font-size: 20px;
+					text-align: right;
+				}
+				.time{
+					height: 13px;
+					font-size: 13px;
 				}
 			}
 			.list-item-amount{

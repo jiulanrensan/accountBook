@@ -3,10 +3,10 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import { NavBar, Icon, Popup, Row, Col, Button, Tag } from 'pagoda-mobile'
+import { NavBar, Icon, Popup, Row, Col, Button, Tag, List } from 'pagoda-mobile'
 Vue.config.productionTip = false
 
-Vue.use(NavBar).use(Icon).use(Popup).use(Row).use(Col).use(Button).use(Tag)
+Vue.use(NavBar).use(Icon).use(Popup).use(Row).use(Col).use(Button).use(Tag).use(List)
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

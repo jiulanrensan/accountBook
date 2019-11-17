@@ -18,6 +18,11 @@ export default new Router({
           path: '/first-page',
           name: 'firstPage',
           component: resolve => require(['@/pages/firstPage'], resolve)
+        },
+        {
+          path: '/edit',
+          name: 'edit',
+          component: resolve => require(['@/pages/edit'], resolve)
         }
       ]
     }
