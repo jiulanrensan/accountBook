@@ -10,9 +10,10 @@
 		  :name="leftIconName" 
 		  slot="left" 
 		  v-if="leftIconShow"
+		  size="20px"
 		  @click="leftPopShow = !leftPopShow"
 		   />
-		  <pagoda-icon :name="rightIconName" slot="right" />
+		  <pagoda-icon :name="rightIconName" slot="right" size="20px"/>
 		</pagoda-nav-bar>
 		<router-view/>
 		<!-- 侧边栏 -->
