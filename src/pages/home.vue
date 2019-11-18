@@ -1,16 +1,4 @@
 <template>
-<<<<<<< HEAD
-  <pagoda-nav-bar
-    :title="title"
-    :left-text="leftText"
-    :left-arrow="arrowShow"
-    fixed
-    @click-left="onClickLeft"
-    @click-right="onClickRight"
-  >
-    <pagoda-icon name="search" slot="right" />
-  </pagoda-nav-bar>
-=======
 	<div :style="{height: homeHeight}" style="padding-top: 46px">
 		<pagoda-nav-bar 
 	  :title="title" 
@@ -41,24 +29,12 @@
 			:style="{ width: '50%', height: '100%' }"
 		>内容</pagoda-popup>
 	</div>
->>>>>>> 8c461632c32d73e597d52e77580a168f367e4bb2
 </template>
 
 <script>
 export default {
   name: 'home',
   data () {
-<<<<<<< HEAD
-    return {
-      leftText: '返回',
-      arrowShow: false,
-      title: '记账本'
-    }
-  },
-  methods: {
-    onClickLeft () {},
-    onClickRight () {}
-=======
   	return {
   		title: '记账本',
   		arrowShow: false,
@@ -81,7 +57,6 @@ export default {
   	handleNew () {
   		console.log(111)
   	}
->>>>>>> 8c461632c32d73e597d52e77580a168f367e4bb2
   }
 }
 </script>
