@@ -55,7 +55,8 @@ export default {
   },
   methods: {
   	handleNew () {
-  		console.log(111)
+      // console.log(111)
+      this.$router.push('/edit')
   	}
   }
 }

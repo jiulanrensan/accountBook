@@ -6,8 +6,8 @@
 		  finished-text="没有更多了"
 		  @load="onLoad"
 		>
-			<template v-for="element in listData">
-				<dailyPanel :panelData="element"></dailyPanel>
+			<template v-for="(element, index) in listData" >
+				<dailyPanel :panelData="element" :key="index"></dailyPanel>
 			</template>
 		</pagoda-list>
 	</div>
@@ -22,37 +22,6 @@ export default {
   		loading: false,
       finished: false,
   		listData: [
-  			// {
-  			// 	titleText: {
-		  	// 		date: '11月16日',
-			  // 		week: '星期五',
-			  // 		income: '100',
-			  // 		expenditure: '100'
-		  	// 	},
-		  	// 	listContent: [
-			  // 		{
-			  // 			sortIconName: 'shop',
-			  // 			sortName: '吃喝',
-			  // 			tagList: ['早餐','面包', '牛奶','早餐','面包', '牛奶'],
-			  // 			amount: '29.4',
-			  // 			time: '19:00'
-			  // 		},
-			  // 		{
-			  // 			sortIconName: 'shop',
-			  // 			sortName: '吃喝',
-			  // 			tagList: ['早餐','面包', '牛奶','早餐','面包', '牛奶'],
-			  // 			amount: '29.4',
-			  // 			time: '19:00'
-			  // 		},
-			  // 		{
-			  // 			sortIconName: 'shop',
-			  // 			sortName: '吃喝',
-			  // 			tagList: ['早餐','面包', '牛奶','早餐','面包', '牛奶'],
-			  // 			amount: '29.4',
-			  // 			time: '19:00'
-			  // 		}
-		  	// 	]
-  			// }
   		]
   	}
   },
