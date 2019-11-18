@@ -5,14 +5,26 @@ Vue.use(Router)
 
 export default new Router({
   routes: [
-    // {
-    //   path: '/',
-    //   redirect: '/home'
-    // },
+    {
+      path: '/',
+      redirect: '/first-page'
+    },
     {
       path: '/',
       name: 'home',
-      component: resolve => require(['@/pages/home'], resolve)
+      component: resolve => require(['@/pages/home'], resolve),
+      children: [
+        {
+          path: '/first-page',
+          name: 'firstPage',
+          component: resolve => require(['@/pages/firstPage'], resolve)
+        },
+        {
+          path: '/edit',
+          name: 'edit',
+          component: resolve => require(['@/pages/edit'], resolve)
+        }
+      ]
     }
   ]
 })
