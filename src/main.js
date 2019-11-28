@@ -7,6 +7,7 @@ import { NavBar, Icon, Popup, Row, Col, Button, Tag, List } from 'pagoda-mobile'
 Vue.config.productionTip = false
 
 Vue.use(NavBar).use(Icon).use(Popup).use(Row).use(Col).use(Button).use(Tag).use(List)
+Vue.prototype.$EventBus = new Vue()
 /* eslint-disable no-new */
 new Vue({
   el: '#app',

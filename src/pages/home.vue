@@ -4,6 +4,7 @@
 	  :title="title" 
 	  :left-text="leftText" 
 	  :left-arrow="arrowShow"
+	  @click-left="onClickLeft"
 	  fixed
 	  border>
 		  <pagoda-icon 
@@ -52,11 +53,24 @@ export default {
   	}
   },
   created () {
+  	// this.$eventBus.on('leftIconShow', data => {
+  	// 	console.log(data)
+  	// })
   },
   methods: {
   	handleNew () {
       // console.log(111)
+      this.leftIconShow = false
+      this.arrowShow = true
       this.$router.push('/edit')
+  	},
+  	onClickLeft () {
+  		if (this.arrowShow) {
+  			this.$router.go(-1)
+  			this.leftIconShow = true
+	      this.arrowShow = false
+  		}
+  		// console.log(111)
   	}
   }
 }

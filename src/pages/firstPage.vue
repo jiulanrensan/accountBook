@@ -18,60 +18,60 @@ import dailyPanel from '@/components/dailyPanel'
 export default {
   name: 'firstPage',
   data () {
-  	return {
-  		loading: false,
-      finished: false,
-  		listData: [
-  		]
-  	}
+	return {
+		loading: false,
+	  finished: false,
+		listData: [
+		]
+	}
   },
   methods: {
-  	onLoad () {
-  		// 异步更新数据
-      setTimeout(() => {
-        this.listData.push({
-  				titleText: {
-		  			date: '11月16日',
-			  		week: '星期五',
-			  		income: '100',
-			  		expenditure: '100'
-		  		},
-		  		listContent: [
-			  		{
-			  			sortIconName: 'shop',
-			  			sortName: '吃喝',
-			  			tagList: ['早餐','面包', '牛奶','早餐','面包', '牛奶'],
-			  			amount: '29.4',
-			  			time: '19:00'
-			  		},
-			  		{
-			  			sortIconName: 'shop',
-			  			sortName: '吃喝',
-			  			tagList: ['早餐','面包', '牛奶','早餐','面包', '牛奶'],
-			  			amount: '29.4',
-			  			time: '19:00'
-			  		},
-			  		{
-			  			sortIconName: 'shop',
-			  			sortName: '吃喝',
-			  			tagList: ['早餐','面包', '牛奶','早餐','面包', '牛奶'],
-			  			amount: '29.4',
-			  			time: '19:00'
-			  		}
-		  		]
-  			})
-        // 加载状态结束
-        this.loading = false;
+	onLoad () {
+		// 异步更新数据
+	  setTimeout(() => {
+		this.listData.push({
+				titleText: {
+					date: '11月16日',
+					week: '星期五',
+					income: '100',
+					expenditure: '100'
+				},
+				listContent: [
+					{
+						sortIconName: 'shop',
+						sortName: '吃喝',
+						tagList: ['早餐','面包', '牛奶','早餐','面包', '牛奶'],
+						amount: '29.4',
+						time: '19:00'
+					},
+					{
+						sortIconName: 'shop',
+						sortName: '吃喝',
+						tagList: ['早餐','面包', '牛奶','早餐','面包', '牛奶'],
+						amount: '29.4',
+						time: '19:00'
+					},
+					{
+						sortIconName: 'shop',
+						sortName: '吃喝',
+						tagList: ['早餐','面包', '牛奶','早餐','面包', '牛奶'],
+						amount: '29.4',
+						time: '19:00'
+					}
+				]
+			})
+		// 加载状态结束
+		this.loading = false;
 
-        // 数据全部加载完成
-        if (this.listData.length >= 10) {
-          this.finished = true;
-        }
-      }, 500)
-  	}
+		// 数据全部加载完成
+		if (this.listData.length >= 10) {
+		  this.finished = true;
+		}
+	  }, 500)
+	}
   },
   components: {
-  	dailyPanel
+	dailyPanel
   }
 }
 </script>
