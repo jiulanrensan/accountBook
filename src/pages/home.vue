@@ -4,6 +4,7 @@
 	  :title="title" 
 	  :left-text="leftText" 
 	  :left-arrow="arrowShow"
+		:right-text="rightText"
 	  @click-left="onClickLeft"
 	  fixed
 	  border>
@@ -15,10 +16,11 @@
 		  @click="leftPopShow = !leftPopShow"
 		  />
 		  <pagoda-icon 
-		  :name="rightIconName" 
+		  :name="rightIconName"
+			v-if="rightIconShow"
 		  slot="right" 
 		  size="20px"
-			@click="handleNew"
+			@click.stop="handleNew"
 		  />
 		</pagoda-nav-bar>
 		<router-view/>
@@ -41,7 +43,9 @@ export default {
   		arrowShow: false,
   		leftText: '返回',
   		leftIconName: 'wap-nav',
-  		rightIconName: "plus",
+			rightIconName: "plus",
+			rightIconShow: true,
+			rightText: '',
   		leftIconShow: true,
   		leftPopShow: false
   	}
@@ -58,17 +62,24 @@ export default {
   	// })
   },
   methods: {
+		// stop阻止事件冒泡
   	handleNew () {
       // console.log(111)
       this.leftIconShow = false
-      this.arrowShow = true
+			this.arrowShow = true
+			this.rightIconShow = false
       this.$router.push('/edit')
-  	},
+		},
+		onClickRight () {
+			console.log(111)
+		},
   	onClickLeft () {
   		if (this.arrowShow) {
   			this.$router.go(-1)
   			this.leftIconShow = true
-	      this.arrowShow = false
+				this.arrowShow = false
+				this.rightIconShow = true
+				this.rightText = ''
   		}
   		// console.log(111)
   	}
