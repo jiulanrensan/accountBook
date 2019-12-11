@@ -74,18 +74,23 @@
       </pagoda-checkbox-group>
     </pagoda-dialog>
 
-    <pagoda-popup v-model="showPicker" position="bottom">
+    <!-- <pagoda-popup v-model="showPicker" position="bottom">
       <pagoda-picker
         show-toolbar
         :columns="columns"
         @cancel="showPicker = false"
         @confirm="onConfirm"
       />
-    </pagoda-popup>
+    </pagoda-popup> -->
+    <advancedPicker
+      :showPicker="showPicker"
+      :columnsList="columns"
+    ></advancedPicker>
   </div>
 </template>
 
 <script>
+import advancedPicker from '@/components/advancedPicker'
 export default {
   name: 'edit',
   data() {
@@ -115,6 +120,9 @@ export default {
     editComfirm () {
       console.log(111)
     }
+  },
+  components: {
+    advancedPicker
   }
 }
 </script>
