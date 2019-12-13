@@ -1,6 +1,5 @@
 <template>
   <div class="edit">
-    <pagoda-button type="primary" size="large" square class="button" @click="editComfirm">确认</pagoda-button>
     <pagoda-row type="flex" justify="center">
       <pagoda-col span="8" class="head_category">
         <div :class="balance === 'IN' ? head_category_balance : ''" @click="changeBalance('IN')">收入</div>
@@ -8,71 +7,18 @@
       </pagoda-col>
     </pagoda-row>
 
-    <categoryList></categoryList>
-    <pagoda-field
-      readonly
-      clickable
-      label="分类"
-      :value="content.category.value"
-      placeholder="选择分类"
-      label-class="labelStyle"
-      label-width="50px"
-      label-align="left"
-      input-align="right"
-      @click="showPicker = true"
-    />
-    <!-- 标签确认事件 -->
-    <pagoda-field
-      readonly
-      clickable
-      label="标签"
-      :value="content.tag"
-      placeholder="选择标签"
-      input-align="right"
-      @click="dialogShow = true"
-    />
-    <pagoda-cell-group>
-      <pagoda-field
-        v-model="content.amount"
-        label="金额"
-        placeholder="请输入金额"
-        input-align="right"
-      />
-    </pagoda-cell-group>
-    <div class="remark">备注</div>
-    <pagoda-cell-group>
-      <pagoda-field
-        v-model="content.remark"
-        type="textarea"
-        placeholder="请输入备注"
-        rows="1"
-        autosize
-      />
-    </pagoda-cell-group>
+    <categoryList
+      @category="showPopup"
+      :selectedCate="content.category"
+     ></categoryList>
 
-    <pagoda-dialog
-      v-model="dialogShow"
-      title="请选择标签"
-      show-cancel-button
-    >
-      <pagoda-checkbox-group v-model="result">
-        <pagoda-cell-group>
-          <pagoda-cell
-            v-for="(item, index) in list"
-            clickable
-            :key="item"
-            :title="`${item}`"
-            @click="toggle(index)"
-          >
-            <pagoda-checkbox
-              :name="item"
-              ref="checkboxes"
-              slot="right-icon"
-            />
-          </pagoda-cell>
-        </pagoda-cell-group>
-      </pagoda-checkbox-group>
-    </pagoda-dialog>
+    <advancedField labelName="标签"></advancedField>
+
+    <advancedField labelName="金额"></advancedField>
+
+    <advancedField labelName="备注"></advancedField>
+
+    <pagoda-button type="primary" size="large" square class="button" @click="editComfirm">确认</pagoda-button>
 
     <pagoda-popup v-model="showPicker" position="bottom">
       <ul class="categories" @click="selectCategory($event)">
@@ -87,12 +33,16 @@
 
 <script>
 import categoryList from '@/components/categoryList'
+import advancedField from '@/components/advancedField'
 export default {
   name: 'edit',
   data() {
     return {
       content: {
-        category: {},
+        category: {
+          value: '',
+          iconName: ''
+        },
         radio: '',
         amount: '',
         remark: '',
@@ -144,13 +94,18 @@ export default {
         this.content.category.value = target.innerText
         this.showPicker = false
       }
+      // console.log(this.content.category)
     },
     changeBalance (val) {
       this.balance = val
+    },
+    showPopup (data) {
+      this.showPicker = data
     }
   },
   components: {
-    categoryList
+    categoryList,
+    advancedField
   }
 }
 </script>

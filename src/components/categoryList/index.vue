@@ -1,11 +1,11 @@
 <template>
 	<div class="field">
     <div class="cate_name">分类</div>
-    <div class="cate_main">
+    <div class="cate_main" @click="showPopup">
       <div class="cate_icon">
-        <i class="iconfont account-chihe"></i>
+        <i class="iconfont" :class="cateValue.iconName"></i>
       </div>
-      <div class="cate_value">吃喝</div>
+      <div class="cate_value">{{cateValue.value}}</div>
     </div>
   </div>
 </template>
@@ -14,7 +14,10 @@
 		name: 'category-list',
 		data () {
 			return {
-        value: ''
+        cateValue: {
+          value: '吃喝',
+          iconName: 'account-chihe'
+        }
 			}
 		},
 		created () {
@@ -25,10 +28,30 @@
 		mounted () {
 		},
 		props: {
+      selectedCate: {
+        type: Object,
+        default: () => {
+          return {
+            value: '',
+            iconName: ''
+          }
+        }
+      }
 		},
 		methods: {
-
-		}
+      showPopup () {
+        this.$emit('category', true)
+      }
+    },
+    watch: {
+      selectedCate: {
+        handler (val) {
+          // console.log(val)
+          this.cateValue = val
+        },
+        deep: true
+      }
+    }
 	}
 </script>
 <style lang="less" scoped>

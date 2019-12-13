@@ -1,11 +1,11 @@
 <template>
 	<div class="field">
-    <div class="label_name">分类</div>
+    <div class="label_name">{{labelName}}</div>
     <!-- <div class="label_icon">
       <i class="iconfont account-chihe"></i>
     </div> -->
     <pagoda-field 
-    readonly
+    class="pdfield"
     input-align="right"
     v-model="value" 
     placeholder="请输入" />
@@ -27,24 +27,43 @@
 		mounted () {
 		},
 		props: {
+      labelName: {
+        type: String,
+        default: () => ''
+      }
 		},
 		methods: {
 
-		}
+    },
+    watch: {
+      value (val) {
+        // this.$emit('')
+      }
+    }
 	}
 </script>
 <style lang="less" scoped>
   .field{
-    display: flex;
-    position: relative;
+    // display: flex;
+    // position: relative;
+    // line-height: 45px;
+    height: 48px;
     .label_name{
-      width: 10%;
+      float: left;
+      width: 40px;
+      margin-left: 10px;
       padding-top: 12px;
       padding-bottom: 12px;
-      margin-left: 10px;
     }
     .label_icon{
       position: relative;
+    }
+    .pagoda-cell{
+      padding-right: 10px;
+    }
+    .pdfield{
+      width: 60%;
+      float: right;
     }
   }
 </style>
