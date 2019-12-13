@@ -1,45 +1,45 @@
 <template>
-	<div class="field">
-    <div class="label_name">{{labelName}}</div>
-    <!-- <div class="label_icon">
-      <i class="iconfont account-chihe"></i>
-    </div> -->
-    <pagoda-field 
-    class="pdfield"
-    input-align="right"
-    v-model="value" 
-    placeholder="请输入" />
+  <div>
+    <div class="field" v-for="item in field">
+      <div class="label_name">{{item.labelName}}</div>
+      <!-- <div class="label_icon">
+        <i class="iconfont account-chihe"></i>
+      </div> -->
+      <pagoda-field 
+      class="pdfield"
+      input-align="right"
+      v-model="item.fieldValue" 
+      placeholder="请输入" />
+    </div>
   </div>
+	
 </template>
 <script>
 	export default {
 		name: 'advanced-field',
 		data () {
 			return {
-        value: ''
+        field: []
 			}
 		},
 		created () {
 			// console.log(111)
+      this.field = JSON.parse(JSON.stringify(this.fieldList))
 		},
 		computed: {
 		},
 		mounted () {
 		},
 		props: {
-      labelName: {
-        type: String,
-        default: () => ''
+      fieldList: {
+        type: Array,
+        default: () => []
       }
 		},
 		methods: {
 
     },
-    watch: {
-      value (val) {
-        // this.$emit('')
-      }
-    }
+    watch: {    }
 	}
 </script>
 <style lang="less" scoped>

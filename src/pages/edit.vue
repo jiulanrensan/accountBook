@@ -12,11 +12,7 @@
       :selectedCate="content.category"
      ></categoryList>
 
-    <advancedField labelName="标签"></advancedField>
-
-    <advancedField labelName="金额"></advancedField>
-
-    <advancedField labelName="备注"></advancedField>
+    <fieldList :fieldList="fieldList"></fieldList>
 
     <pagoda-button type="primary" size="large" square class="button" @click="editComfirm">确认</pagoda-button>
 
@@ -33,7 +29,7 @@
 
 <script>
 import categoryList from '@/components/categoryList'
-import advancedField from '@/components/advancedField'
+import fieldList from '@/components/advancedField'
 export default {
   name: 'edit',
   data() {
@@ -72,6 +68,20 @@ export default {
         {value: '兼职', iconName: 'account-jianzhi'}, 
         {value: '投资', iconName: 'account-touzi'}, 
         {value: '红包', iconName: 'account-hongbao'}
+      ],
+      fieldList: [
+        {
+          labelName: '标签',
+          fieldValue: ''
+        },
+        {
+          labelName: '金额',
+          fieldValue: ''
+        },
+        {
+          labelName: '备注',
+          fieldValue: ''
+        }
       ]
     }
   },
@@ -105,7 +115,7 @@ export default {
   },
   components: {
     categoryList,
-    advancedField
+    fieldList
   }
 }
 </script>
