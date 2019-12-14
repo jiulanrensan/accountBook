@@ -9,16 +9,16 @@
 
     <categoryList
       @category="showPopup"
-      :selectedCate="content.category"
+      :selectedCate="category"
      ></categoryList>
 
-    <fieldList :fieldList="fieldList"></fieldList>
+    <fieldList :fieldList="fieldList" ref="fieldChild"></fieldList>
 
     <pagoda-button type="primary" size="large" square class="button" @click="editComfirm">确认</pagoda-button>
 
     <pagoda-popup v-model="showPicker" position="bottom">
       <ul class="categories" @click="selectCategory($event)">
-        <li v-for="item in outcomeCategoriesList" :key="item.value" :data-set="item.iconName">
+        <li v-for="item in list" :key="item.value" :data-set="item.iconName">
           <i class="iconfont" :class="item.iconName"></i>
           <div>{{item.value}}</div>
         </li>
@@ -39,17 +39,19 @@ export default {
           value: '',
           iconName: ''
         },
-        radio: '',
         amount: '',
         remark: '',
         tag: ''
+      },
+      category: {
+        value: '',
+        iconName: ''
       },
       // balance表示支出(OUT)或者收入(IN)
       balance: 'IN',
       head_category_balance: 'head_category_balance',
       showPicker: false,
       dialogShow: false,
-      list: ['早餐', '午餐', '晚餐', '零食', '夜宵'],
       result: [],
       outcomeCategoriesList: [
         {value: '吃喝', iconName: 'account-chihe'}, 
@@ -85,17 +87,12 @@ export default {
       ]
     }
   },
+  computed: {
+    list () {
+      return this.balance === 'IN' ? this.outcomeCategoriesList : this.incomeCategoriesList
+    }
+  },
   methods: {
-    onConfirm(value) {
-      this.content.value = value
-      this.showPicker = false
-    },
-    toggle(index) {
-      this.$refs.checkboxes[index].toggle();
-    },
-    editComfirm () {
-      console.log(111)
-    },
     selectCategory (ev) {
       // console.log(ev)
       const target = ev.target.parentNode
@@ -111,6 +108,20 @@ export default {
     },
     showPopup (data) {
       this.showPicker = data
+    },
+    editComfirm () {
+      console.log(this.$refs.fieldChild.field)
+    }
+  },
+  watch: {
+    balance (data) {
+      this.category = data === 'IN'? {
+          value: '吃喝',
+          iconName: 'account-chihe'
+        } : {
+          value: '工资',
+          iconName: 'account-gongzi'
+        }
     }
   },
   components: {

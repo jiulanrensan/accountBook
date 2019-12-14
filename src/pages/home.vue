@@ -23,7 +23,10 @@
 			@click.stop="handleNew"
 		  />
 		</pagoda-nav-bar>
-		<router-view/>
+		<keep-alive :include="['firstPage']">
+			<router-view/>
+		</keep-alive>
+		
 		<!-- 侧边栏 -->
 		<!-- fixed定位在最顶层 -->
 		<pagoda-popup 

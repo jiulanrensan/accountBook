@@ -3,6 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
+import axios from './service/axios'
 Vue.config.productionTip = false
 
 // import { NavBar, Icon, Popup, Row, Col, Button, Tag, List, Picker, Field, RadioGroup, Radio, Cell, CellGroup, Dialog, Checkbox, CheckboxGroup } from 'pagoda-mobile'
@@ -10,6 +11,7 @@ Vue.config.productionTip = false
 import 'pagoda-mobile/lib/index.css';
 import Pagoda from 'pagoda-mobile';
 Vue.use(Pagoda)
+Vue.prototype.$axios = axios
 
 
 

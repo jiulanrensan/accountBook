@@ -15,8 +15,8 @@
 		data () {
 			return {
         cateValue: {
-          value: '吃喝',
-          iconName: 'account-chihe'
+          value: '',
+          iconName: ''
         }
 			}
 		},

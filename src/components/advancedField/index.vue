@@ -39,7 +39,14 @@
 		methods: {
 
     },
-    watch: {    }
+    watch: {
+      // field: {
+      //   handler (data) {
+      //     console.log(data)
+      //   },
+      //   deep: true
+      // }
+    }
 	}
 </script>
 <style lang="less" scoped>
