@@ -3,19 +3,14 @@ import vue from '../main';
 
 let axiosIns = axios.create({});
 
-axiosIns.defaults.baseURL = 'api'
+axiosIns.defaults.baseURL = '/'
 let loading = null
 
+// console.log(vue)
 // 添加请求拦截器
 axiosIns.interceptors.request.use(function (config) {
   // Do something before request is sent
-  // vue.$pagoda.loading.start();
-  loading = vue.$loading({
-    lock: true,
-    text: 'Loading',
-    spinner: 'el-icon-loading',
-    background: 'rgba(0, 0, 0, 0.1)'
-  })
+  // vue.eventBus.$emit('loading', true)
   return config;
 }, function (error) {
   // Do something with request error
@@ -25,19 +20,19 @@ axiosIns.interceptors.request.use(function (config) {
 // 添加响应拦截器
 axiosIns.interceptors.response.use(function (response) {
   // Do something with response data
-  // vue.$pagoda.loading.done();
-  loading.close()
-  if (response.data.succ) {
-    console.log(response)
+  // loading.close()
+  // vue.eventBus.$emit('loading', false)
+  console.log(response)
+  if (response.data.code === 0) {
     return response.data.data
   } else {
-    vue.$message.error(response.data.msg);
+    // vue.$message.error(response.data.msg);
     return Promise.reject(response);
   }
 }, function (error) {
   // Do something with response error
-  // vue.$pagoda.loading.done();
-  loading.close()
+  // loading.close()
+  // vue.eventBus.$emit('loading', false)
   return Promise.reject(error);
 });
 

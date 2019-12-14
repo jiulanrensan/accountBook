@@ -34,6 +34,9 @@
 			position="left"
 			:style="{ width: '50%', height: '100%' }"
 		>内容</pagoda-popup>
+
+		<pagoda-overlay :show="overlayShow" @click="overlay = false" class-name="overlay"/>
+		<pagoda-loading size="50px" vertical class="loading" v-show="overlayShow">加载中...</pagoda-loading>
 	</div>
 </template>
 
@@ -50,7 +53,8 @@ export default {
 			rightIconShow: true,
 			rightText: '',
   		leftIconShow: true,
-  		leftPopShow: false
+			leftPopShow: false,
+			overlayShow: false
   	}
   },
   computed: {
@@ -62,7 +66,10 @@ export default {
   created () {
   	// this.$eventBus.on('leftIconShow', data => {
   	// 	console.log(data)
-  	// })
+		// })
+		this.$on('loading', data => {
+			this.overlayShow = data
+		})
   },
   methods: {
 		// stop阻止事件冒泡
@@ -89,4 +96,18 @@ export default {
   }
 }
 </script>
+<style lang="less">
+	.overlay{
+		z-index: 500 !important;
+		background-color: rgba(0,0,0,0.5);
+	}
+	.loading{
+		position: fixed;
+		z-index: 501;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%);
+		margin: 0 auto;
+	}
+</style>
 

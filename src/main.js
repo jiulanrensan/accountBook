@@ -12,15 +12,15 @@ import 'pagoda-mobile/lib/index.css';
 import Pagoda from 'pagoda-mobile';
 Vue.use(Pagoda)
 Vue.prototype.$axios = axios
-
+Vue.prototype.eventBus = new Vue()
 
 
 // Vue.use(NavBar).use(Icon).use(Popup).use(Row).use(Col).use(Button).use(Tag).use(List).use(Picker).use(Field).use(RadioGroup).use(Radio).use(Cell).use(CellGroup).use(Dialog).use(Checkbox).use(CheckboxGroup)
-Vue.prototype.$EventBus = new Vue()
 /* eslint-disable no-new */
-new Vue({
+const vue = new Vue({
   el: '#app',
   router,
   components: { App },
   template: '<App/>'
 })
+export default vue

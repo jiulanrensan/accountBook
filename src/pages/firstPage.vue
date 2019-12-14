@@ -18,60 +18,80 @@ import dailyPanel from '@/components/dailyPanel'
 export default {
   name: 'firstPage',
   data () {
-	return {
-		loading: false,
-	  finished: false,
-		listData: [
-		]
-	}
-  },
-  methods: {
-	onLoad () {
-		// 异步更新数据
-	  setTimeout(() => {
-		this.listData.push({
-				titleText: {
-					date: '11月16日',
-					week: '星期五',
-					income: '100',
-					expenditure: '100'
-				},
-				listContent: [
-					{
-						sortIconName: 'shop',
-						sortName: '吃喝',
-						tagList: ['早餐','面包', '牛奶','早餐','面包', '牛奶'],
-						amount: '29.4',
-						time: '19:00'
-					},
-					{
-						sortIconName: 'shop',
-						sortName: '吃喝',
-						tagList: ['早餐','面包', '牛奶','早餐','面包', '牛奶'],
-						amount: '29.4',
-						time: '19:00'
-					},
-					{
-						sortIconName: 'shop',
-						sortName: '吃喝',
-						tagList: ['早餐','面包', '牛奶','早餐','面包', '牛奶'],
-						amount: '29.4',
-						time: '19:00'
-					}
-				]
-			})
-		// 加载状态结束
-		this.loading = false;
-
-		// 数据全部加载完成
-		if (this.listData.length >= 10) {
-		  this.finished = true;
+		return {
+			loading: false,
+			finished: false,
+			listData: [
+			]
 		}
-	  }, 500)
-	}
+	},
+	created () {
+		this.$axios.get('getList', {
+			params: {
+				page_size: 5,
+				page_num: 1
+			}
+		})
+		.then(res => {
+			console.log(res)
+		})
+		.catch(e => {
+			console.log(e)
+		})
+	},
+  methods: {
+		onLoad () {
+			// 异步更新数据
+			setTimeout(() => {
+				this.listData.push({
+						titleText: {
+							date: '11月16日',
+							week: '星期五',
+							income: '100',
+							expenditure: '100'
+						},
+						listContent: [
+							{
+								sortIconName: 'shop',
+								sortName: '吃喝',
+								tagList: ['早餐','面包', '牛奶','早餐','面包', '牛奶'],
+								amount: '29.4',
+								time: '19:00'
+							},
+							{
+								sortIconName: 'shop',
+								sortName: '吃喝',
+								tagList: ['早餐','面包', '牛奶','早餐','面包', '牛奶'],
+								amount: '29.4',
+								time: '19:00'
+							},
+							{
+								sortIconName: 'shop',
+								sortName: '吃喝',
+								tagList: ['早餐','面包', '牛奶','早餐','面包', '牛奶'],
+								amount: '29.4',
+								time: '19:00'
+							}
+						]
+					})
+				// 加载状态结束
+				this.loading = false;
+
+				// 数据全部加载完成
+				if (this.listData.length >= 10) {
+					this.finished = true;
+				}
+			}, 500)
+		},
+		// 先根据时间分组，将这组的收入支出汇总
+		formatList (data) {
+			data.map(el => {
+
+			})
+		}
   },
   components: {
-	dailyPanel
+		dailyPanel
   }
 }
 </script>
