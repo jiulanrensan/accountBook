@@ -39,6 +39,7 @@ export function timeComparison (firstDate, secondDate) {
 }
 
 // 将分类icon映射到相对应的分类中文
+// 为什么在其他地方引用会报错？？
 export function iconMap (data) {
   const arr = Array.prototype.concat(this.GLOBAL.outcomeCategoriesList, this.GLOBAL.incomeCategoriesList)
   let index = arr.findIndex(el => el.iconName === data)

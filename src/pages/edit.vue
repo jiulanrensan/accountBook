@@ -30,7 +30,7 @@
 <script>
 import categoryList from '@/components/categoryList'
 import fieldList from '@/components/advancedField'
-import {iconMap} from '@/utils/index'
+// import {iconMap} from '@/utils/index'
 export default {
   name: 'edit',
   data() {
@@ -83,11 +83,11 @@ export default {
       })
       .then(res => {
         // console.log(res)
-        this.category.iconName = res.account_type
-        this.category.value = iconMap(res.account_type)
-        // this.fieldList.forEach(el => {
-        //   el.fieldValue = 
-        // });
+        this.category.iconName = res.data.account_type
+        this.category.value = this.iconMap(res.data.account_type)
+        this.fieldList[0].fieldValue = res.data.tag
+        this.fieldList[1].fieldValue = res.data.sum
+        this.fieldList[2].fieldValue = res.data.remark
       })
     }
   },
@@ -115,7 +115,12 @@ export default {
     },
     editComfirm () {
       console.log(this.$refs.fieldChild.field)
-    }
+    },
+    iconMap (data) {
+			const arr = Array.prototype.concat(this.GLOBAL.outcomeCategoriesList, this.GLOBAL.incomeCategoriesList)
+      let index = arr.findIndex(el => el.iconName === data)
+			return arr[index].value
+		}
   },
   watch: {
     balance (data) {

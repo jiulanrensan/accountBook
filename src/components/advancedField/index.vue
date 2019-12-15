@@ -40,12 +40,13 @@
 
     },
     watch: {
-      // field: {
-      //   handler (data) {
-      //     console.log(data)
-      //   },
-      //   deep: true
-      // }
+      fieldList: {
+        handler (data) {
+          // console.log(data)
+          this.field = JSON.parse(JSON.stringify(this.fieldList))
+        },
+        deep: true
+      }
     }
 	}
 </script>

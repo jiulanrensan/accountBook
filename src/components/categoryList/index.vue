@@ -75,13 +75,14 @@
       display: flex;
       justify-content: flex-end;
       .cate_icon{
-        // width: 40px;
+        width: 40px;
+        height: 40px;
+        background-color: rgba(255, 204, 119);
+        border-radius: 50%;
+        margin-right: 10px;
         i{
           font-size: 30px;
-          margin-right: 10px;
-          color: #fff;
-          background-color: rgba(255, 204, 119, 0.8);
-          border-radius: 50%;
+					font-weight: bolder;
         }
       }
       .cate_value{

@@ -62,7 +62,7 @@
 	</pagoda-row>
 </template>
 <script>
-import {iconMap} from '@/utils'
+// import {iconMap} from '@/utils'
 export default {
   name: 'dailyList',
   data () {
@@ -70,7 +70,6 @@ export default {
   	}
 	},
 	created () {
-		// console.log(iconMap('account-chihe'))
 	},
   methods: {
   	viewDetail (item) {
@@ -99,11 +98,11 @@ export default {
 				return arr
 			}
 		},
-		// iconMap (data) {
-		// 	const arr = Array.prototype.concat(this.GLOBAL.outcomeCategoriesList, this.GLOBAL.incomeCategoriesList)
-		// 	let index = arr.findIndex(el => el.iconName === data)
-		// 	return arr[index].value
-		// }
+		iconMap (data) {
+			const arr = Array.prototype.concat(this.GLOBAL.outcomeCategoriesList, this.GLOBAL.incomeCategoriesList)
+			let index = arr.findIndex(el => el.iconName === data)
+			return arr[index].value
+		}
   },
   props: {
   	panelData: {
