@@ -6,7 +6,7 @@
 		  <pagoda-col span="8">
 		  	<div style="text-align: left">
 				  <span>{{panelData.titleText.date}}</span>
-				  <span>{{panelData.titleText.week}}</span>
+				  <!-- <span>{{panelData.titleText.week}}</span> -->
 			  </div>
 			</pagoda-col>
 		  <pagoda-col span="12">
@@ -28,17 +28,20 @@
 				<!-- 中间靠左内容+分类 -->
 				<!-- 右侧金额+时间 -->
 			  <pagoda-col span="4" class="list-item">
-			  	<pagoda-icon name="shop" size="40px"/>
+			  	<!-- <pagoda-icon name="shop" size="40px"/> -->
+					<span class="font-span">
+						<i class="iconfont font-style" :class="item.account_type"></i>
+					</span>
 				</pagoda-col>
 				<pagoda-col span="14" class="list-item item-left">
 					<div class="list-item-content">
-						<div class="sort">{{item.sortName}}</div>
+						<div class="sort">{{iconMap(item.account_type)}}</div>
 						<div class="tag-list">
 							<pagoda-tag 
 								type="info" 
 								light
 								size="medium"
-								v-for="(tag, i) in item.tagList"
+								v-for="(tag, i) in tagSplit(item.tag)"
 								:key="i"
 								style="margin-right:4px"
 							>
@@ -49,8 +52,8 @@
 				</pagoda-col>
 				<pagoda-col span="6" class="list-item item-right">
 					<div class="list-item-amount">
-						<div class="amount">{{item.amount}}</div>
-						<div class="time">{{item.time}}</div>
+						<div class="amount">{{item.sum}}</div>
+						<div class="time">{{formatTime(item.time)}}</div>
 					</div>
 				</pagoda-col>
 			</pagoda-row>
@@ -59,45 +62,47 @@
 	</pagoda-row>
 </template>
 <script>
+// import {iconMap} from '@/utils'
 export default {
   name: 'dailyList',
   data () {
   	return {
-  		// titleText: {
-  		// 	date: '11月16日',
-	  	// 	week: '星期五',
-	  	// 	income: '100',
-	  	// 	expenditure: '100'
-  		// },
-  		// listContent: [
-	  	// 	{
-	  	// 		sortIconName: 'shop',
-	  	// 		sortName: '吃喝',
-	  	// 		tagList: ['早餐','面包', '牛奶','早餐','面包', '牛奶'],
-	  	// 		amount: '29.4',
-	  	// 		time: '19:00'
-	  	// 	},
-	  	// 	{
-	  	// 		sortIconName: 'shop',
-	  	// 		sortName: '吃喝',
-	  	// 		tagList: ['早餐','面包', '牛奶','早餐','面包', '牛奶'],
-	  	// 		amount: '29.4',
-	  	// 		time: '19:00'
-	  	// 	},
-	  	// 	{
-	  	// 		sortIconName: 'shop',
-	  	// 		sortName: '吃喝',
-	  	// 		tagList: ['早餐','面包', '牛奶','早餐','面包', '牛奶'],
-	  	// 		amount: '29.4',
-	  	// 		time: '19:00'
-	  	// 	}
-  		// ]
   	}
-  },
+	},
+	created () {
+	},
   methods: {
   	viewDetail (item) {
-  		console.log(item)
-  	}
+			// console.log(item)
+			// this.$router.push({name: 'edit', params: {id: item.id}})
+			this.eventBus.$emit('turnEdit', {id: item.id, edit: false})
+		},
+		formatTime(time) {
+			let timeObj = new Date(time)
+			return `${this.addZero(timeObj.getHours())}:${this.addZero(timeObj.getMinutes())}:${this.addZero(timeObj.getSeconds())}`
+		},
+		addZero (data) {
+			let result = ''
+			if (data < 10) {
+				result = `0${data}`
+				return result
+			} else {
+				return data
+			}
+		},
+		tagSplit (data) {
+			const arr = data.split(',')
+			if (arr.length === 1 && arr[0] === '') {
+				return []
+			} else {
+				return arr
+			}
+		},
+		iconMap (data) {
+			const arr = Array.prototype.concat(this.GLOBAL.outcomeCategoriesList, this.GLOBAL.incomeCategoriesList)
+			let index = arr.findIndex(el => el.iconName === data)
+			return arr[index].value
+		}
   },
   props: {
   	panelData: {
@@ -121,6 +126,24 @@ export default {
 			display: flex;
 			justify-content: center;
 			align-items: center;
+			overflow: hidden;
+			.font-span{
+				display: block;
+				width: 40px;
+				height: 40px;
+				border-radius: 50%;
+				background-color: rgb(255, 204, 119);
+				position: relative;
+				.font-style{
+					position: absolute;
+					font-size: 30px;
+					font-weight: bolder;
+					width: 100%;
+					left: 0;
+					top: 50%;
+					transform: translateY(-50%);
+				}
+			}
 			.list-item-content,
 			.list-item-amount{
 				height: 60px;
