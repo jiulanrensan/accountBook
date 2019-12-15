@@ -31,10 +31,7 @@
       selectedCate: {
         type: Object,
         default: () => {
-          return {
-            value: '',
-            iconName: ''
-          }
+          return {}
         }
       }
 		},
@@ -49,6 +46,7 @@
           // console.log(val)
           this.cateValue = val
         },
+        immediate: true,
         deep: true
       }
     }

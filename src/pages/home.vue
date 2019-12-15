@@ -67,18 +67,19 @@ export default {
   	// this.$eventBus.on('leftIconShow', data => {
   	// 	console.log(data)
 		// })
-		this.$on('loading', data => {
+		this.eventBus.$on('loading', data => {
 			this.overlayShow = data
+		})
+		this.eventBus.$on('turnEdit', data => {
+			// console.log(data)
+			this.turnEdit(data)
 		})
   },
   methods: {
 		// stop阻止事件冒泡
   	handleNew () {
       // console.log(111)
-      this.leftIconShow = false
-			this.arrowShow = true
-			this.rightIconShow = false
-      this.$router.push('/edit')
+      this.turnEdit()
 		},
 		onClickRight () {
 			console.log(111)
@@ -92,7 +93,17 @@ export default {
 				this.rightText = ''
   		}
   		// console.log(111)
-  	}
+		},
+		turnEdit (data) {
+			this.leftIconShow = false
+			this.arrowShow = true
+			this.rightIconShow = false
+			const param = {
+				edit: true
+			}
+			data ? Object.assign(param, {id: data.id, edit: data.edit}) : ''
+      this.$router.push({name: 'edit', params: param})
+		}
   }
 }
 </script>

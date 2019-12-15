@@ -22,9 +22,9 @@ axiosIns.interceptors.response.use(function (response) {
   // Do something with response data
   // loading.close()
   // vue.eventBus.$emit('loading', false)
-  console.log(response)
+  // console.log(response)
   if (response.data.code === 0) {
-    return response.data.data
+    return response.data
   } else {
     // vue.$message.error(response.data.msg);
     return Promise.reject(response);

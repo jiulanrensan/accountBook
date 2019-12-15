@@ -30,6 +30,7 @@
 <script>
 import categoryList from '@/components/categoryList'
 import fieldList from '@/components/advancedField'
+import {iconMap} from '@/utils/index'
 export default {
   name: 'edit',
   data() {
@@ -44,8 +45,8 @@ export default {
         tag: ''
       },
       category: {
-        value: '',
-        iconName: ''
+        value: '吃喝',
+        iconName: 'account-chihe'
       },
       // balance表示支出(OUT)或者收入(IN)
       balance: 'IN',
@@ -53,43 +54,46 @@ export default {
       showPicker: false,
       dialogShow: false,
       result: [],
-      outcomeCategoriesList: [
-        {value: '吃喝', iconName: 'account-chihe'}, 
-        {value: '交通', iconName: 'account-traffic'},
-        {value: '衣物鞋包', iconName: 'account-clothes'}, 
-        {value: '医院', iconName: 'account-hospital'}, 
-        {value: '学习', iconName: 'account-study'}, 
-        
-        {value: '日用品', iconName: 'account-riyongpin'},
-        {value: '房租', iconName: 'account-fangzu'},
-        {value: '化妆品', iconName: 'account-huazhuang'}
-      ],
-      incomeCategoriesList: [
-        {value: '工资', iconName: 'account-gongzi'}, 
-        {value: '奖金', iconName: 'account-jiangjin'}, 
-        {value: '兼职', iconName: 'account-jianzhi'}, 
-        {value: '投资', iconName: 'account-touzi'}, 
-        {value: '红包', iconName: 'account-hongbao'}
-      ],
       fieldList: [
         {
+          id: 'tag',
           labelName: '标签',
           fieldValue: ''
         },
         {
+          id: 'sum',
           labelName: '金额',
           fieldValue: ''
         },
         {
+          id: 'remark',
           labelName: '备注',
           fieldValue: ''
         }
       ]
     }
   },
+  created () {
+    // console.log(this.$route)
+    if (!this.$route.params.edit) {
+      this.$axios.get('/getListDetail', {
+        params: {
+          id: this.$route.params.id
+        }
+      })
+      .then(res => {
+        // console.log(res)
+        this.category.iconName = res.account_type
+        this.category.value = iconMap(res.account_type)
+        // this.fieldList.forEach(el => {
+        //   el.fieldValue = 
+        // });
+      })
+    }
+  },
   computed: {
     list () {
-      return this.balance === 'IN' ? this.outcomeCategoriesList : this.incomeCategoriesList
+      return this.balance === 'IN' ? this.GLOBAL.outcomeCategoriesList : this.GLOBAL.incomeCategoriesList
     }
   },
   methods: {
@@ -97,8 +101,8 @@ export default {
       // console.log(ev)
       const target = ev.target.parentNode
       if (target.nodeName === 'LI') {
-        this.content.category.iconName =  target.dataset.set
-        this.content.category.value = target.innerText
+        this.category.iconName =  target.dataset.set
+        this.category.value = target.innerText
         this.showPicker = false
       }
       // console.log(this.content.category)
@@ -116,12 +120,12 @@ export default {
   watch: {
     balance (data) {
       this.category = data === 'IN'? {
-          value: '吃喝',
-          iconName: 'account-chihe'
-        } : {
-          value: '工资',
-          iconName: 'account-gongzi'
-        }
+        value: '吃喝',
+        iconName: 'account-chihe'
+      } : {
+        value: '工资',
+        iconName: 'account-gongzi'
+      }
     }
   },
   components: {
