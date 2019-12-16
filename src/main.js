@@ -3,15 +3,26 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import { NavBar, Icon, Popup, Row, Col, Button, Tag, List, Picker, Field, RadioGroup, Radio, Cell, CellGroup, Dialog, Checkbox, CheckboxGroup } from 'pagoda-mobile'
+import axios from './service/axios'
+import globalVariable from './common/global_variable'
 Vue.config.productionTip = false
 
-Vue.use(NavBar).use(Icon).use(Popup).use(Row).use(Col).use(Button).use(Tag).use(List).use(Picker).use(Field).use(RadioGroup).use(Radio).use(Cell).use(CellGroup).use(Dialog).use(Checkbox).use(CheckboxGroup)
-Vue.prototype.$EventBus = new Vue()
+// import { NavBar, Icon, Popup, Row, Col, Button, Tag, List, Picker, Field, RadioGroup, Radio, Cell, CellGroup, Dialog, Checkbox, CheckboxGroup } from 'pagoda-mobile'
+
+import 'pagoda-mobile/lib/index.css';
+import Pagoda from 'pagoda-mobile';
+Vue.use(Pagoda)
+Vue.prototype.$axios = axios
+Vue.prototype.eventBus = new Vue()
+Vue.prototype.GLOBAL = globalVariable
+
+
+// Vue.use(NavBar).use(Icon).use(Popup).use(Row).use(Col).use(Button).use(Tag).use(List).use(Picker).use(Field).use(RadioGroup).use(Radio).use(Cell).use(CellGroup).use(Dialog).use(Checkbox).use(CheckboxGroup)
 /* eslint-disable no-new */
-new Vue({
+const vue = new Vue({
   el: '#app',
   router,
   components: { App },
   template: '<App/>'
 })
+export default vue

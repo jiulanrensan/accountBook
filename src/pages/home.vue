@@ -23,7 +23,10 @@
 			@click.stop="handleNew"
 		  />
 		</pagoda-nav-bar>
-		<router-view/>
+		<keep-alive :include="['firstPage']">
+			<router-view/>
+		</keep-alive>
+		
 		<!-- 侧边栏 -->
 		<!-- fixed定位在最顶层 -->
 		<pagoda-popup 
@@ -31,6 +34,9 @@
 			position="left"
 			:style="{ width: '50%', height: '100%' }"
 		>内容</pagoda-popup>
+
+		<pagoda-overlay :show="overlayShow" @click="overlay = false" class-name="overlay"/>
+		<pagoda-loading size="50px" vertical class="loading" v-show="overlayShow">加载中...</pagoda-loading>
 	</div>
 </template>
 
@@ -47,7 +53,8 @@ export default {
 			rightIconShow: true,
 			rightText: '',
   		leftIconShow: true,
-  		leftPopShow: false
+			leftPopShow: false,
+			overlayShow: false
   	}
   },
   computed: {
@@ -59,16 +66,20 @@ export default {
   created () {
   	// this.$eventBus.on('leftIconShow', data => {
   	// 	console.log(data)
-  	// })
+		// })
+		this.eventBus.$on('loading', data => {
+			this.overlayShow = data
+		})
+		this.eventBus.$on('turnEdit', data => {
+			// console.log(data)
+			this.turnEdit(data)
+		})
   },
   methods: {
 		// stop阻止事件冒泡
   	handleNew () {
       // console.log(111)
-      this.leftIconShow = false
-			this.arrowShow = true
-			this.rightIconShow = false
-      this.$router.push('/edit')
+      this.turnEdit()
 		},
 		onClickRight () {
 			console.log(111)
@@ -82,8 +93,32 @@ export default {
 				this.rightText = ''
   		}
   		// console.log(111)
-  	}
+		},
+		turnEdit (data) {
+			this.leftIconShow = false
+			this.arrowShow = true
+			this.rightIconShow = false
+			const param = {
+				read: false
+			}
+			data ? Object.assign(param, {id: data.id, balance: data.balance, read: data.read}) : ''
+      this.$router.push({name: 'edit', params: param})
+		}
   }
 }
 </script>
+<style lang="less">
+	.overlay{
+		z-index: 500 !important;
+		background-color: rgba(0,0,0,0.5);
+	}
+	.loading{
+		position: fixed;
+		z-index: 501;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%);
+		margin: 0 auto;
+	}
+</style>
 
