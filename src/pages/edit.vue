@@ -15,7 +15,8 @@
 
     <fieldList :fieldList="fieldList" :readable="readable" ref="fieldChild"></fieldList>
 
-    <pagoda-button type="primary" size="large" square class="button" @click="editComfirm">{{readable ? '编辑' : '确认'}}</pagoda-button>
+    <pagoda-button type="primary" size="large" square class="button" :style="{'bottom': readable ? '48px' : '0'}" @click="editComfirm">{{readable ? '编辑' : '确认'}}</pagoda-button>
+    <pagoda-button type="danger" size="large" square class="button" @click="deleteComfirm" v-if="readable">删除</pagoda-button>
 
     <pagoda-popup v-model="showPicker" position="bottom">
       <ul class="categories" @click="selectCategory($event)">
@@ -124,6 +125,7 @@ export default {
       if (this.readable) this.readable = false
       console.log(this.$refs.fieldChild.field)
     },
+    deleteComfirm () {},
     iconMap (data) {
 			const arr = Array.prototype.concat(this.GLOBAL.outcomeCategoriesList, this.GLOBAL.incomeCategoriesList)
       let index = arr.findIndex(el => el.iconName === data)
@@ -173,6 +175,9 @@ export default {
       position: absolute;
       bottom: 0;
       left: 0;
+    }
+    .delete{
+      bottom: 48px;
     }
   }
   .pagoda-cell--large .pagoda-cell__title{
