@@ -10,11 +10,12 @@
     <categoryList
       @category="showPopup"
       :selectedCate="category"
+      :readable="readable"
      ></categoryList>
 
-    <fieldList :fieldList="fieldList" ref="fieldChild"></fieldList>
+    <fieldList :fieldList="fieldList" :readable="readable" ref="fieldChild"></fieldList>
 
-    <pagoda-button type="primary" size="large" square class="button" @click="editComfirm">确认</pagoda-button>
+    <pagoda-button type="primary" size="large" square class="button" @click="editComfirm">{{readable ? '编辑' : '确认'}}</pagoda-button>
 
     <pagoda-popup v-model="showPicker" position="bottom">
       <ul class="categories" @click="selectCategory($event)">
@@ -53,6 +54,7 @@ export default {
       head_category_balance: 'head_category_balance',
       showPicker: false,
       dialogShow: false,
+      readable: false,
       result: [],
       fieldList: [
         {
@@ -75,7 +77,9 @@ export default {
   },
   created () {
     // console.log(this.$route)
-    if (!this.$route.params.edit) {
+    this.readable = this.$route.params.read
+    this.balance = this.$route.params.balance ? this.$route.params.balance : 'IN'
+    if (this.readable) {
       this.$axios.get('/getListDetail', {
         params: {
           id: this.$route.params.id
@@ -108,12 +112,16 @@ export default {
       // console.log(this.content.category)
     },
     changeBalance (val) {
-      this.balance = val
+      if (!this.readable) {
+        this.balance = val
+      }
     },
     showPopup (data) {
       this.showPicker = data
     },
     editComfirm () {
+      // console.log(this.readable)
+      if (this.readable) this.readable = false
       console.log(this.$refs.fieldChild.field)
     },
     iconMap (data) {

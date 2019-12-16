@@ -6,6 +6,7 @@
         <i class="iconfont account-chihe"></i>
       </div> -->
       <pagoda-field 
+      :readonly="fieldread"
       class="pdfield"
       input-align="right"
       v-model="item.fieldValue" 
@@ -19,7 +20,8 @@
 		name: 'advanced-field',
 		data () {
 			return {
-        field: []
+        field: [],
+        fieldread: true
 			}
 		},
 		created () {
@@ -34,6 +36,10 @@
       fieldList: {
         type: Array,
         default: () => []
+      },
+      readable: {
+        type: Boolean,
+        default: () => true
       }
 		},
 		methods: {
@@ -46,6 +52,12 @@
           this.field = JSON.parse(JSON.stringify(this.fieldList))
         },
         deep: true
+      },
+      readable: {
+        handler (val) {
+          this.fieldread = val
+        },
+        immediate: true
       }
     }
 	}

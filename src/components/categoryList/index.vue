@@ -33,11 +33,17 @@
         default: () => {
           return {}
         }
+      },
+      readable: {
+        type: Boolean,
+        default: () => false
       }
 		},
 		methods: {
       showPopup () {
-        this.$emit('category', true)
+        if (!this.readable) {
+          this.$emit('category', true)
+        }
       }
     },
     watch: {
