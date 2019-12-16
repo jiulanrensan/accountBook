@@ -99,9 +99,9 @@ export default {
 			this.arrowShow = true
 			this.rightIconShow = false
 			const param = {
-				edit: true
+				read: false
 			}
-			data ? Object.assign(param, {id: data.id, edit: data.edit}) : ''
+			data ? Object.assign(param, {id: data.id, balance: data.balance, read: data.read}) : ''
       this.$router.push({name: 'edit', params: param})
 		}
   }

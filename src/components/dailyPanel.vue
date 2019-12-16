@@ -75,7 +75,7 @@ export default {
   	viewDetail (item) {
 			// console.log(item)
 			// this.$router.push({name: 'edit', params: {id: item.id}})
-			this.eventBus.$emit('turnEdit', {id: item.id, edit: false})
+			this.eventBus.$emit('turnEdit', {id: item.id, balance: item.in_or_out, read: true})
 		},
 		formatTime(time) {
 			let timeObj = new Date(time)
