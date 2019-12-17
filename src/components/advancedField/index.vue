@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="field" v-for="item in field">
+    <div class="field" v-for="(item, index) in field" :key="index">
       <div class="label_name">{{item.labelName}}</div>
       <!-- <div class="label_icon">
         <i class="iconfont account-chihe"></i>

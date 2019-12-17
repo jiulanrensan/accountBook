@@ -17,9 +17,10 @@
 			</pagoda-col>
 		</pagoda-row>
 		<!-- 内容行，v-for循环渲染列表 -->
-		<template v-for="item in panelData.listContent" >
+		<template v-for="(item,index) in panelData.listContent" >
 			<pagoda-row 
-			type="flex" 
+			type="flex"
+			:key="index"
 			justify="space-around" 
 			class="list-content"
 			@click="viewDetail(item)"
@@ -57,7 +58,7 @@
 					</div>
 				</pagoda-col>
 			</pagoda-row>
-			<div class="pagoda-hairline--bottom"></div>
+			<div class="pagoda-hairline--bottom" :key="`item${index}`"></div>
 		</template>
 	</pagoda-row>
 </template>
@@ -70,6 +71,7 @@ export default {
   	}
 	},
 	created () {
+		console.log(this.panelData)
 	},
   methods: {
   	viewDetail (item) {
@@ -101,7 +103,7 @@ export default {
 		iconMap (data) {
 			const arr = Array.prototype.concat(this.GLOBAL.outcomeCategoriesList, this.GLOBAL.incomeCategoriesList)
 			let index = arr.findIndex(el => el.iconName === data)
-			return arr[index].value
+			return (arr[index] && arr[index].value) || ''
 		}
   },
   props: {

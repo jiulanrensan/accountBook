@@ -48,6 +48,7 @@ export default {
 			})
 			.then(res => {
 				// 加载状态结束
+				console.log(res)
 				this.loading = false
 				this.page_num += 1
 				if (!res.data.length) this.finished = true
@@ -73,11 +74,13 @@ export default {
 						this.listData[index].listContent.push(res.data[i])
 					}
 				}
+				this.listData = [...this.listData]
 			})
 			.catch(e => {
 				// 加载状态结束
 				this.loading = false
 				this.error = true
+				// this.listData = []
 				console.log(e)
 			})
 		}
