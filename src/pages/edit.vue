@@ -11,6 +11,7 @@
       @category="showPopup"
       :selectedCate="category"
       :readable="readable"
+      ref="cateChild"
      ></categoryList>
 
     <fieldList :fieldList="fieldList" :readable="readable" ref="fieldChild"></fieldList>
@@ -32,7 +33,7 @@
 <script>
 import categoryList from '@/components/categoryList'
 import fieldList from '@/components/advancedField'
-// import {iconMap} from '@/utils/index'
+import {formatDate} from '@/utils/index'
 export default {
   name: 'edit',
   data() {
@@ -51,11 +52,14 @@ export default {
         iconName: 'account-chihe'
       },
       // balance表示支出(OUT)或者收入(IN)
-      balance: 'IN',
+      balance: 'OUT',
       head_category_balance: 'head_category_balance',
       showPicker: false,
       dialogShow: false,
       readable: false,
+      create: true,
+      // 用来记录修改状态下，原有的新增时间
+      create_time: '',
       result: [],
       fieldList: [
         {
@@ -78,6 +82,11 @@ export default {
   },
   created () {
     // console.log(this.$route)
+    // 确认当前页面是否新增状态
+    this.create = !this.$route.params.read
+    console.log(this.create)
+    // 点击列表进来read为true,点击右上角加号进来，read为false
+    // 修改不改变时间，新增改变时间
     this.readable = this.$route.params.read
     this.balance = this.$route.params.balance ? this.$route.params.balance : 'IN'
     if (this.readable) {
@@ -88,6 +97,7 @@ export default {
       })
       .then(res => {
         // console.log(res)
+        this.create_time = res.data.time
         this.category.iconName = res.data.account_type
         this.category.value = this.iconMap(res.data.account_type)
         this.fieldList[0].fieldValue = res.data.tag
@@ -98,7 +108,10 @@ export default {
   },
   computed: {
     list () {
-      return this.balance === 'IN' ? this.GLOBAL.outcomeCategoriesList : this.GLOBAL.incomeCategoriesList
+      return this.balance === 'OUT' ? this.GLOBAL.outcomeCategoriesList : this.GLOBAL.incomeCategoriesList
+    },
+    itemUrl () {
+      return this.create ? '/addItem': '/updateItem'
     }
   },
   methods: {
@@ -122,8 +135,34 @@ export default {
     },
     editComfirm () {
       // console.log(this.readable)
-      if (this.readable) this.readable = false
-      console.log(this.$refs.fieldChild.field)
+      if (this.readable) {
+        this.readable = false
+      } else {
+        // console.log(this.$refs.fieldChild.field)
+        const field = this.$refs.fieldChild.field
+        const requestBody = {
+          user_name: 'lee',
+          account_type: this.$refs.cateChild.cateValue.iconName,
+          tag: field[0].fieldValue,
+          sum: field[1].fieldValue,
+          remark: field[2].fieldValue,
+          in_or_out: this.balance,
+          time: this.readable ? this.create_time : formatDate({GMT: new Date()})
+        }
+        // this.create
+        Object.assign(requestBody, this.create ? {} : {id: this.$route.params.id})
+        this.$axios.post(this.itemUrl, requestBody)
+        .then(res => {
+          // console.log(res)
+          // 需要禁止页面返回按钮
+          this.eventBus.$emit('changeLeft', true)
+          this.$router.push({name: 'firstPage', params:{id: this.$route.params.id}})
+        })
+        .catch(e => {
+          // Toast.fail(`提交失败,${e.data.msg}`)
+          console.log(e)
+        })
+      }
     },
     deleteComfirm () {},
     iconMap (data) {
@@ -134,7 +173,7 @@ export default {
   },
   watch: {
     balance (data) {
-      this.category = data === 'IN'? {
+      this.category = data === 'OUT'? {
         value: '吃喝',
         iconName: 'account-chihe'
       } : {

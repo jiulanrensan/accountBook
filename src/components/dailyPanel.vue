@@ -91,7 +91,7 @@ export default {
 			}
 		},
 		tagSplit (data) {
-			const arr = data.split(',')
+			const arr = data.replace(/[；，,]/g, ';').split(';')
 			if (arr.length === 1 && arr[0] === '') {
 				return []
 			} else {

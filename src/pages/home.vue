@@ -5,7 +5,7 @@
 	  :left-text="leftText" 
 	  :left-arrow="arrowShow"
 		:right-text="rightText"
-	  @click-left="onClickLeft"
+	  @click-left="onClickLeft({to: 'firstPage'})"
 	  fixed
 	  border>
 		  <pagoda-icon 
@@ -74,7 +74,12 @@ export default {
 			// console.log(data)
 			this.turnEdit(data)
 		})
-  },
+		this.eventBus.$on('changeLeft', data => {
+			// console.log(data)
+			this.changeLeft()
+		})
+	},
+	
   methods: {
 		// stop阻止事件冒泡
   	handleNew () {
@@ -84,15 +89,17 @@ export default {
 		onClickRight () {
 			console.log(111)
 		},
-  	onClickLeft () {
+  	onClickLeft (data) {
   		if (this.arrowShow) {
-  			this.$router.go(-1)
-  			this.leftIconShow = true
-				this.arrowShow = false
-				this.rightIconShow = true
-				this.rightText = ''
+  			this.changeLeft()
+				this.$router.go(-1)
   		}
-  		// console.log(111)
+		},
+		changeLeft () {
+			this.leftIconShow = true
+			this.arrowShow = false
+			this.rightIconShow = true
+			this.rightText = ''
 		},
 		turnEdit (data) {
 			this.leftIconShow = false

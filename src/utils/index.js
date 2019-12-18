@@ -7,7 +7,6 @@ export function formatDate (obj) {
   const basicObj = {
     GMT: '',
     offsetDay: 0,
-    separator: '-'
   }
   Object.assign(basicObj, obj)
   
@@ -15,14 +14,17 @@ export function formatDate (obj) {
 	var targetTime = new Date(new Date(basicObj.GMT).getTime() + Number(basicObj.offsetDay*24*60*60*1000))
 	var myyear = targetTime.getFullYear()
 	var mymonth = targetTime.getMonth() + 1
-	var myweekday = targetTime.getDate()
+  var myweekday = targetTime.getDate()
+  var hour = targetTime.getHours()
+  var minutes = targetTime.getMinutes()
+  var second = targetTime.getSeconds()
 	if (mymonth < 10) {
 		mymonth = "0" + mymonth
 	}
 	if (myweekday < 10) {
 		myweekday = "0" + myweekday
 	}
-	return (`${myyear}${basicObj.separator}${mymonth}${basicObj.separator}${myweekday}`)
+return (`${myyear}-${mymonth}-${myweekday} ${hour}:${minutes}:${second}`)
 }
 
 // 默认为yyyy-mm-dd格式,相等返回true,不相等返回false
