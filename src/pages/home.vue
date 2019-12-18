@@ -83,7 +83,7 @@ export default {
   methods: {
 		// stop阻止事件冒泡
   	handleNew () {
-      // console.log(111)
+      console.log(111)
       this.turnEdit()
 		},
 		onClickRight () {

@@ -11,9 +11,9 @@ const outcomeCategoriesList = [
 ]
 const incomeCategoriesList = [
   {value: '工资', iconName: 'account-gongzi'}, 
-  {value: '奖金', iconName: 'account-jiangjin'}, 
-  {value: '兼职', iconName: 'account-jianzhi'}, 
-  {value: '投资', iconName: 'account-touzi'}, 
+  {value: '奖金', iconName: 'account-jiangjin'},
+  {value: '兼职', iconName: 'account-jianzhi'},
+  {value: '投资', iconName: 'account-touzi'},
   {value: '红包', iconName: 'account-hongbao'}
 ]
 

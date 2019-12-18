@@ -21,7 +21,7 @@
 
     <pagoda-popup v-model="showPicker" position="bottom">
       <ul class="categories" @click="selectCategory($event)">
-        <li v-for="item in list" :key="item.value" :data-set="item.iconName">
+        <li v-for="(item, index) in list" :key="index" :data-set="item.iconName">
           <i class="iconfont" :class="item.iconName"></i>
           <div>{{item.value}}</div>
         </li>
@@ -99,10 +99,12 @@ export default {
         // console.log(res)
         this.create_time = res.data.time
         this.category.iconName = res.data.account_type
+        // dsf
         this.category.value = this.iconMap(res.data.account_type)
         this.fieldList[0].fieldValue = res.data.tag
         this.fieldList[1].fieldValue = res.data.sum
         this.fieldList[2].fieldValue = res.data.remark
+        this.fieldList = [...this.fieldList]
       })
     }
   },
@@ -133,6 +135,7 @@ export default {
     showPopup (data) {
       this.showPicker = data
     },
+    // 编辑 和 新增
     editComfirm () {
       // console.log(this.readable)
       if (this.readable) {
@@ -164,11 +167,14 @@ export default {
         })
       }
     },
-    deleteComfirm () {},
     iconMap (data) {
 			const arr = Array.prototype.concat(this.GLOBAL.outcomeCategoriesList, this.GLOBAL.incomeCategoriesList)
-      let index = arr.findIndex(el => el.iconName === data)
-			return arr[index].value
+      // let index = arr.findIndex(el => el.iconName === data)
+      console.log(arr, data)
+      let icon = arr.find(el => el.iconName === data)
+      // dsf
+      console.log(arr, "arr")
+			return (icon && icon.value) || '吃喝'
 		}
   },
   watch: {
