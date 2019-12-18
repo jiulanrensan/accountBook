@@ -38,9 +38,36 @@ export default {
 		// console.log(formatDate({GMT: 'Sun Dec 14 2019 14:38:14 GMT+0800 (中国标准时间)'}))
 		// console.log(timeComparison('2019-12-15','2019-12-14'))
 	},
+	activated () {
+		// console.log(this.$route.params)
+		if (this.$route.params && this.$route.params.id) {
+			// console.log(this.$route.params.id)
+			this.$axios.get('/getListDetail', {
+				params: {
+					id: this.$route.params.id
+				}
+			})
+			.then(res => {
+				let time = res.data.time.slice(0, 10)
+				this.listData.forEach(el => {
+					if (el.date === time) {
+						el.listContent.forEach(ele => {
+							if (ele.id === this.$route.params.id){
+								ele.account_type = res.data.account_type
+								ele.sum = res.data.sum
+								ele.tag = res.data.tag
+								ele.time = res.data.time
+							}
+						})
+					}
+				})
+				
+			})
+		}
+	},
   methods: {
 		onLoad () {
-			this.$axios.get('getList', {
+			this.$axios.get('/getList', {
 				params: {
 					page_size: this.page_size,
 					page_num: this.page_num
@@ -51,26 +78,31 @@ export default {
 				console.log(res)
 				this.loading = false
 				this.page_num += 1
+				const obj = {
+					IN: 0,
+					OUT: 0
+				}
 				if (!res.data.length) this.finished = true
 				for (let i = 0; i < res.data.length; i++) {
-					let index = this.timeArr.indexOf(formatDate({GMT: res.data[i].time}))
+					let index = this.timeArr.indexOf(formatDate({GMT: res.data[i].time}).slice(0, 10))
 					if (index < 0) {
-						this.timeArr.push(formatDate({GMT: res.data[i].time}))
+						this.timeArr.push(formatDate({GMT: res.data[i].time}).slice(0, 10))
+						obj[res.data[i].in_or_out] = res.data[i].sum
 						this.listData.push({
+							date: formatDate({GMT: res.data[i].time}).slice(0, 10),
 							titleText: {
-								date: formatDate({GMT: res.data[i].time}),
-								income: res.data[i] === 'IN' ? res.data[i].sum : 0,
-								expenditure: res.data[i] === 'OUT' ? 0 : res.data[i].sum
+								date: formatDate({GMT: res.data[i].time}).slice(0, 10),
+								income: res.data[i].in_or_out === 'IN' ? res.data[i].sum : 0,
+								expenditure: res.data[i].in_or_out === 'OUT' ? res.data[i].sum : 0
 							}, 
 							listContent: [res.data[i]]
 							})
 					} else {
-						const obj = {
-							IN: 0,
-							OUT: 0
+						if (res.data[i].in_or_out === 'IN') {
+							this.listData[index].titleText.income += res.data[i].sum
+						} else {
+							this.listData[index].titleText.expenditure += res.data[i].sum
 						}
-						obj[res.data[i].in_or_out] += res.data[i].sum
-						Object.assign(this.listData[index].titleText, {income: obj.IN, expenditure: obj.OUT})
 						this.listData[index].listContent.push(res.data[i])
 					}
 				}
