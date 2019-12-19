@@ -15,9 +15,9 @@ export function formatDate (obj) {
 	var myyear = targetTime.getFullYear()
 	var mymonth = targetTime.getMonth() + 1
   var myweekday = targetTime.getDate()
-  var hour = targetTime.getHours()
-  var minutes = targetTime.getMinutes()
-  var second = targetTime.getSeconds()
+  var hour = targetTime.getHours() < 10 ? `0${targetTime.getHours()}` : targetTime.getHours()
+  var minutes = targetTime.getMinutes() < 10 ? `0${targetTime.getMinutes()}` : targetTime.getMinutes()
+  var second = targetTime.getSeconds() < 10? `0${targetTime.getSeconds()}` : targetTime.getSeconds()
 	if (mymonth < 10) {
 		mymonth = "0" + mymonth
 	}

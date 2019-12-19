@@ -81,10 +81,10 @@ export default {
     }
   },
   created () {
-    // console.log(this.$route)
+    // console.log(this.$route.params.id)
     // 确认当前页面是否新增状态
     this.create = !this.$route.params.read
-    console.log(this.create)
+    // console.log(this.create)
     // 点击列表进来read为true,点击右上角加号进来，read为false
     // 修改不改变时间，新增改变时间
     this.readable = this.$route.params.read
@@ -96,9 +96,8 @@ export default {
         }
       })
       .then(res => {
-        // console.log(res)
-        this.create_time = res.data.time
         this.category.iconName = res.data.account_type
+        this.create_time = formatDate({GMT: res.data.time})
         // dsf
         this.category.value = this.iconMap(res.data.account_type)
         this.fieldList[0].fieldValue = res.data.tag
@@ -150,16 +149,16 @@ export default {
           sum: field[1].fieldValue,
           remark: field[2].fieldValue,
           in_or_out: this.balance,
-          time: this.readable ? this.create_time : formatDate({GMT: new Date()})
+          time: this.create ? formatDate({GMT: new Date()}) : this.create_time
         }
-        // this.create
         Object.assign(requestBody, this.create ? {} : {id: this.$route.params.id})
         this.$axios.post(this.itemUrl, requestBody)
         .then(res => {
           // console.log(res)
           // 需要禁止页面返回按钮
+          // 新增需要返回id，不然没法在activated里请求详情
           this.eventBus.$emit('changeLeft', true)
-          this.$router.push({name: 'firstPage', params:{id: this.$route.params.id}})
+          this.$router.push({name: 'firstPage', params:{id: this.$route.params.id || res.data.insertId, request: true}})
         })
         .catch(e => {
           // Toast.fail(`提交失败,${e.data.msg}`)
@@ -167,13 +166,24 @@ export default {
         })
       }
     },
+    // 删除
+    deleteComfirm () {
+      this.$axios.post('/delNote', {id: this.$route.params.id}).then(res => {
+        if (res.code === 0) {
+          this.eventBus.$emit('changeLeft', true)
+          this.$router.push({
+            name: 'firstPage',
+            params: {delInfo: {id: this.$route.params.id, time: this.create_time}, delete: true}
+          })
+        }
+      })
+    },
     iconMap (data) {
 			const arr = Array.prototype.concat(this.GLOBAL.outcomeCategoriesList, this.GLOBAL.incomeCategoriesList)
       // let index = arr.findIndex(el => el.iconName === data)
-      console.log(arr, data)
+      // console.log(arr, data)
       let icon = arr.find(el => el.iconName === data)
       // dsf
-      console.log(arr, "arr")
 			return (icon && icon.value) || '吃喝'
 		}
   },

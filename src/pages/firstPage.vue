@@ -40,42 +40,63 @@ export default {
 	},
 	activated () {
 		// console.log(this.$route.params)
-		if (this.$route.params && this.$route.params.id) {
-			// console.log(this.$route.params.id)
+		if (this.$route.params && this.$route.params.request) {
+			// 根据修改的或新增的id用详情接口获取信息，并改动此id
 			this.$axios.get('/getListDetail', {
 				params: {
 					id: this.$route.params.id
 				}
 			})
 			.then(res => {
+				// console.log(res)
 				let time = res.data.time.slice(0, 10)
-				this.listData.forEach(el => {
-					if (el.date === time) {
-						el.listContent.forEach(ele => {
-							if (ele.id === this.$route.params.id){
-								ele.account_type = res.data.account_type
-								ele.sum = res.data.sum
-								ele.tag = res.data.tag
-								ele.time = res.data.time
-							}
+				let index = this.listData.findIndex(el => el.date === time)
+				if (index < 0) {
+					// 当前日期不存在，则往数组前新增一项
+					this.listData.unshift({
+						date: formatDate({GMT: res.data.time}).slice(0, 10),
+						titleText: {
+							date: formatDate({GMT: res.data.time}).slice(0, 10),
+							income: res.data.in_or_out === 'IN' ? res.data.sum : 0,
+							expenditure: res.data.in_or_out === 'OUT' ? res.data.sum : 0
+						}, 
+						listContent: [res.data]
 						})
+				} 
+				else {
+					let id = this.listData[index].listContent.findIndex(el => el.id === this.$route.params.id)
+					if (id < 0) {
+						this.listData[index].listContent.unshift(res.data)
+					} else {
+						// 直接赋值不起作用，改用splice方法
+						this.listData[index].listContent.splice(id, 1, res.data)
+						// this.$set(this.listData[index], listContent[id], res.data)
 					}
-				})
-				
+				}
 			})
+		} else if (this.$route.params && this.$route.params.delete) {
+			let {time, id} = this.$route.params.delInfo
+			let index = this.listData.findIndex(el => el.date === time.slice(0, 10))
+			let idIndex = this.listData[index].listContent.findIndex(el => el.id === id)
+			this.listData[index].listContent.length === 1 ?
+				this.listData.splice(index, 1) :
+				this.listData[index].listContent.splice(idIndex, 1)
 		}
 	},
   methods: {
 		onLoad () {
+			this.getList(this.page_size, this.page_num)
+		},
+		getList (page_size, page_num) {
 			this.$axios.get('/getList', {
 				params: {
-					page_size: this.page_size,
-					page_num: this.page_num
+					page_size: page_size,
+					page_num: page_num
 				}
 			})
 			.then(res => {
 				// 加载状态结束
-				console.log(res)
+				// console.log(res)
 				this.loading = false
 				this.page_num += 1
 				const obj = {

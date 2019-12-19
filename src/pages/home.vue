@@ -83,11 +83,11 @@ export default {
   methods: {
 		// stop阻止事件冒泡
   	handleNew () {
-      console.log(111)
+      // console.log(111)
       this.turnEdit()
 		},
 		onClickRight () {
-			console.log(111)
+			// console.log(111)
 		},
   	onClickLeft (data) {
   		if (this.arrowShow) {

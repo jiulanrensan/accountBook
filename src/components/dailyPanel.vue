@@ -71,7 +71,7 @@ export default {
   	}
 	},
 	created () {
-		console.log(this.panelData)
+		// console.log(this.panelData)
 	},
   methods: {
   	viewDetail (item) {
